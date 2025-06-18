@@ -14,7 +14,7 @@ const app = express();
 
 // middleware
 const corsOptions = {
-    origin:'https://job-portal-mu-rose.vercel.app',
+    origin:['https://job-portal-mu-rose.vercel.app','http://localhost:5173'],
     credentials:true
 }
 app.use(cors(corsOptions));
