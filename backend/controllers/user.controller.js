@@ -91,8 +91,13 @@ export const login = async (req, res) => {
             role: user.role,
             profile: user.profile
         }
-
-        return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpsOnly: true, sameSite: 'strict' }).json({
+const isProduction = process.env.NODE_ENV === 'production';
+return res.status(200).cookie('token', token, {
+  httpOnly: true,
+  secure: isProduction, //  true in production (HTTPS), false in local
+  sameSite: isProduction ? 'None' : 'Lax', //  'None' for cross-site, 'Lax' for localhost
+  maxAge: 1 * 24 * 60 * 60 * 1000 // 1 day
+}).json({
             message: `Welcome back ${user.fullname}`,
             user,
             success: true
